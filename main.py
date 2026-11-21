@@ -8,12 +8,18 @@ set, otherwise /output/entry.txt.
 import os
 
 JOKE = (
-    "During the live demo my agent fixed the bug, broke the build, "
-    "then opened a PR titled 'you're welcome'."
+    "The demo crashed live, and my agent whispered, "
+    "'What was this supposed to do?'"
 )
 
 
 def main() -> None:
+    # Gate: the joke must be one line of 1-280 non-whitespace characters.
+    if not 1 <= len(JOKE) <= 280 or not JOKE.strip():
+        raise ValueError(
+            f"JOKE fails the entry gate: {len(JOKE)} characters, "
+            "expected 1-280 non-whitespace characters"
+        )
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
     os.makedirs(out_dir, exist_ok=True)
     path = os.path.join(out_dir, "entry.txt")
